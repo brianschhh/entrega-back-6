@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Desafio 6</title>
+
+  <!-- SOCKET.IO CLIENT -->
+  <script src="/socket.io/socket.io.js"></script>
+
+  <!-- CDN de HANDLEBARS en caso de que quieran usar
+    Handlebars en el FrontEnd (NO lo recomiendo): -->
+
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"
+  integrity="sha512-RNLkV3d+aLtfcpEyFG8jRbnWHxUqVZozacROI4J2F1sTaDqo1dPQYs01OMi1t1w9Y2FdbSCDSQ2ZVdAC8bzgAg=="
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+
+</head>
+
+<body>
+
+    <h4>Ingrese un producto:</h4>  
+
+<form id="formulario" autocomplete="off" >
+
+    <label for="title">Título:</label>
+    <input type="text" name="title" id="title" >
+
+    <label for="price">Precio:</label>
+    <input type="text" name="price" id="price" >
+
+    <label for="thumbnail">URL de la imagen:</label>
+    <input type="text" name="thumbnail" id="thumbnail" >
+
+    <button  id="send2" type="submit">ENVIAR</button>
+
+</form>
+
+
+  <!-- TABLA DE PRODUCTOS: -->
+
+
+
+  <table>
+
+    <thead>
+      <tr>
+        <th>Nombre:</th>
+        <th>Precio:</th>
+        <th>Foto:</th>
+      </tr>
+    </thead>
+
+    <!-- Acá va a ir insertada la tabla dinámica creada en JavaScript -->
+
+    <tbody id="productsTable"></tbody>
+
+  </table>
+
+
+  <!-- MENSAJES -->
+
+  <!-- La consigna pide ingresar un mail pero como no hay validación de mails
+  se puede poner el nombre de usuario que uno quiera: -->
+
+  <label for="user">Usuario:</label>
+  <input type="text" id="user" placeholder="Nombre de usuario...">
+  
+
+  <!--  OJO: no usar method="POST" ni action="/mensajes" en el <form>
+  Toda la lógica del <form> será manejada por JavaScript referenciando el id (messageForm) del <form> -->
+
+  <form autocomplete="off" id="messageForm">
+
+    <div>
+      <input  id="msg" type="text" placeholder="Escribí un mensaje...">
+      <button  id="send" type="submit">ENVIAR</button>
+    </div>
+
+  </form>
+
+  <hr>
+
+  <!-- Acá va a ir insertada la lista de mensajes recibidos del servidor: -->
+
+  <div id="mensajes"></div>
+  
+
+  <!-- Archivo .js que va a manejar toda la lógica de WebSockets y la construcción de la tabla dinámica -->
+
+  <script src="js/sockets.js"></script>
+
+</body>

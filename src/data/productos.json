@@ -1,0 +1,19 @@
+[
+  {
+    "title": "Apple II",
+    "price": "2",
+    "thumbnail": "https://i.imgur.com/X99fUfw.jpg",
+    "id": 1
+  },
+  {
+    "title": "Commodore 64",
+    "price": "64000",
+    "thumbnail": "https://i.imgur.com/WYaFgpW.jpg",
+    "id": 2
+  },
+  {
+    "title": "asdasdasd",
+    "price": "262623623",
+    "id": 3
+  }
+]
