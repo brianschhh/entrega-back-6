@@ -3,6 +3,7 @@ const socket = io.connect();
 const form = document.getElementById("formulario");
 const price = document.getElementById("price");
 const title = document.getElementById("title");
+const thumbnail = document.getElementById("thumbnail");
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -12,6 +13,7 @@ form.addEventListener("submit", (e) => {
   const prod = {
     title: title.value,
     price: price.value,
+    thumbnail: thumbnail.value,
   };
 
   socket.emit("nuevoProducto", prod);
@@ -56,29 +58,6 @@ const message = document.getElementById("msg");
 const send = document.getElementById("send");
 const messageForm = document.getElementById("messageForm");
 
-// Crear event listener para el botón de enviar:
-
-messageForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-
-  // Construir un objeto para el mensaje:
-
-  const msg = {
-    author: user.value,
-    text: message.value,
-  };
-
-  // Emitir el mensaje desde el cliente al servidor con websockets:
-
-  socket.emit("nuevoMensaje", msg);
-
-  // Resetear el formulario:
-
-  messageForm.reset();
-
-  message.focus();
-});
-
 // Recibir los mensajes desde el servidor con websockets:
 
 socket.on("mensajes", (msg) => {
@@ -106,3 +85,25 @@ const listaMensajes = (mensajes) =>
   `
     )
     .join(" ");
+
+// Crear event listener para el botón de enviar:
+
+messageForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  // Construir un objeto para el mensaje:
+
+  const msg = {
+    author: user.value,
+    text: message.value,
+  };
+
+  // Emitir el mensaje desde el cliente al servidor con websockets:
+
+  socket.emit("nuevoMensaje", msg);
+  // Resetear el formulario:
+
+  messageForm.reset();
+
+  message.focus();
+});

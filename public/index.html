@@ -23,7 +23,7 @@
 
     <h4>Ingrese un producto:</h4>  
 
-<form id="formulario" autocomplete="off" >
+<form id="formulario" method="POST" autocomplete="off" >
 
     <label for="title">Título:</label>
     <input type="text" name="title" id="title" >
@@ -72,7 +72,7 @@
   <!--  OJO: no usar method="POST" ni action="/mensajes" en el <form>
   Toda la lógica del <form> será manejada por JavaScript referenciando el id (messageForm) del <form> -->
 
-  <form autocomplete="off" id="messageForm">
+  <form autocomplete="off" method="POST" id="messageForm">
 
     <div>
       <input  id="msg" type="text" placeholder="Escribí un mensaje...">

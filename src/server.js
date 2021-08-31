@@ -1,25 +1,24 @@
 // Inicializar Socket.io
 // Para esto usé el código que figura en la documentación oficial de Socket.io
 // que es más claro y conciso que el que figura en los slides del curso:
-
-const express = require("express");
 const emoji = require("node-emoji");
+const express = require("express");
 const app = express();
-const http = require("http");
-const server = http.createServer(app);
-const { Server } = require("socket.io");
-const io = new Server(server);
-const port = 8080;
+const PORT = 8080;
+const { Server: HttpServer } = require("http");
+const { Server: IOServer } = require("socket.io");
+const httpServer = new HttpServer(app);
+const io = new IOServer(httpServer);
 
-server.listen(port, () =>
-  console.log(`Servidor activo en http://localhost:${port}`)
-);
+httpServer.listen(PORT, () => {
+  console.log("servidor http://localhost:8080/");
+});
 
 // Middlewares:
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static("public"));
+app.use(express.static("./public"));
 
 // Clase Contenedor (una instancia para productos y otra para mensajes):
 
@@ -36,10 +35,8 @@ io.on("connection", async (socket) => {
 
   // Emitir al cliente la lista de productos:
   console.log(emoji.get("pizza"), "Usuario conectado");
-  socket.on("disconnect", () => {
-    console.log(emoji.get("fire"), "Usuario desconectado");
-  });
-  const products = await contenedorProductos.getAll();
+
+  let products = await contenedorProductos.getAll();
 
   socket.emit("productos", products);
 
@@ -47,15 +44,15 @@ io.on("connection", async (socket) => {
 
   socket.on("nuevoProducto", async (producto) => {
     await contenedorProductos.saveProduct(producto);
-
-    io.sockets.emit("productos", products);
+    products = await contenedorProductos.getAll();
+    io.emit("productos", products);
   });
 
   // MENSAJES
 
   // Emitir la lista de mensajes guardados al cliente:
 
-  const messages = await contenedorMensajes.getAll();
+  let messages = await contenedorMensajes.getAll();
 
   socket.emit("mensajes", messages);
 
@@ -70,9 +67,13 @@ io.on("connection", async (socket) => {
     // para guardar los mensajes:
 
     await contenedorMensajes.saveProduct(msg);
-
+    messages = await contenedorMensajes.getAll();
     // Re-emitir mensajes al cliente:
 
     io.emit("mensajes", messages);
+  });
+
+  socket.on("disconnect", () => {
+    console.log(emoji.get("fire"), "Usuario desconectado");
   });
 });
